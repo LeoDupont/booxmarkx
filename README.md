@@ -20,11 +20,6 @@ git clone https://github.com/LeoDupont/booxmarkx.git
 cd booxmarkx
 ```
 
-Create a new file named `.env`, taking the `.env-sample` file as a model. You'll probably need it in the following steps:
-```bash
-cp .env-sample .env
-```
-
 ## Database
 
 You need to provide a __MongoDB__ database URI, either to the `.env` file, or as a `BOOXMARKX_MONGODB_URI` environment variable.
@@ -35,20 +30,37 @@ If you don't have a MongoDB database ready, here are two ways to get one:
 
 2. __Or__ setup a local database:
 	1. [Install MongoDB Community](https://docs.mongodb.com/manual/administration/install-community/)
-	2. Start up a local database with `mongod --dbpath=db`.
+	2. Start up a local database:
+		```bash
+		cd back
+		mkdir db
+		npm run db
+		```
+		Your new MongoDB URI is: `mongodb://localhost:27017/`.
 
-## Startup
+## API
 
-> By default, the API will listen on port `8080` and the web app will be served on port `3000`, but you can overwrite these with the `BOOXMARKX_API_PORT` and `BOOXMARKX_FRONT_PORT` environment variables (or in the `.env` file).
+> By default, the API will listen on port `8080`, but you can override this with the `BOOXMARKX_API_PORT` environment variable (or in the `.env` file).
 
-Install dependencies:
-```bash
-npm install
-```
+* Create a new file named `.env`, taking the `.env-sample` file as a model:
+	```bash
+	cp .env-sample .env
+	```
 
-Start back-end server and serve front-end:
-```bash
-npm run start
-```
+* Fill the `.env` file with missing info, if any.
 
-You can now access the web app on http://localhost:3000
+* Install, build and start up the API:
+	```bash
+	cd back
+	npm install --production
+	npm run build
+	npm run start
+	```
+
+The API now listens on http://localhost:8080
+
+## Front-end
+
+> By default, the web app will be served on port `3000`, but you can override this with the `BOOXMARKX_FRONT_PORT` environment variable (or in the `.env` file).
+
+...

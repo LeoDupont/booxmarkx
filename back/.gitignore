@@ -1,0 +1,11 @@
+# Environment variables overload:
+.env
+
+# Node modules:
+node_modules/
+
+# Transpiled source code:
+dist/
+
+# Local database:
+db/

@@ -1,8 +1,1 @@
-# Environment variables overload:
-.env
 
-# Node modules:
-node_modules/
-
-# Local database:
-db/

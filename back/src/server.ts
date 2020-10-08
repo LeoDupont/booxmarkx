@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { loadApp } from "./loaders";
 
 async function init() {
