@@ -1,0 +1,17 @@
+{
+	"extends": ["tslint:recommended"],
+	"rules": {
+		"no-namespace": false,
+		"no-internal-module": false,
+		"no-console": false,
+		"no-empty": false,
+		"semicolon": true,
+		"max-classes-per-file": false,
+		"no-angle-bracket-type-assertion": false,
+		"object-literal-shorthand": false,
+		"forin": false,
+		"no-var-requires": false,
+		"one-variable-per-declaration": false,
+		"trailing-comma": true
+	}
+}
