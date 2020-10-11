@@ -6,7 +6,7 @@
 	"scripts": {
 		"db": "mongod --dbpath=db",
 		"dev": "ts-node-dev -r dotenv/config --respawn --transpile-only src/server.ts --dotenv_config_path=.env",
-		"test": "echo \"Please test the front and back projects separately.\"",
+		"test": "jest",
 		"build": "tsc",
 		"prestart": "npm run build",
 		"start": "node -r dotenv/config . --dotenv_config_path=.env"
@@ -51,6 +51,7 @@
 		"@types/node": "^14.11.5",
 		"jest": "^26.5.2",
 		"ts": "^0.2.2",
+		"ts-jest": "^26.4.1",
 		"ts-node": "^9.0.0",
 		"ts-node-dev": "^1.0.0-pre.63",
 		"tslint": "^6.1.3",

@@ -4,4 +4,8 @@ export module InputCleaner {
 		return mail.trim().toLocaleLowerCase();
 	}
 
+	export function url(input: string) {
+		return input.trim();
+	}
+
 }
