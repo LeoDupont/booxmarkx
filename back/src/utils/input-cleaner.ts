@@ -4,6 +4,10 @@ export module InputCleaner {
 		return mail.trim().toLocaleLowerCase();
 	}
 
+	export function tag(label: string) {
+		return label.trim();
+	}
+
 	export function url(input: string) {
 		return input.trim();
 	}

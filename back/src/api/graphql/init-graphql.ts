@@ -6,6 +6,8 @@ import { authChecker } from "./auth-checker";
 import { Account } from "../../models/account.model";
 import { AccountResolver } from "./account.resolver";
 import { auth } from "../utils/authenticated.middleware";
+import { BookmarkResolver } from "./bookmark.resolver";
+import { AuthorResolver } from "./author.resolver";
 
 export type GraphqlContext = {
 	req: Request,
@@ -25,7 +27,11 @@ export async function initGraphqlEndpoint(app: Application) {
 	// === Build Schema ===
 
 	const graphqlSchema = await buildSchema({
-		resolvers: [AccountResolver],
+		resolvers: [
+			AccountResolver,
+			BookmarkResolver,
+			AuthorResolver,
+		],
 		authChecker: authChecker
 	});
 

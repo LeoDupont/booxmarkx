@@ -35,7 +35,7 @@ export module oEmbed {
 		type: Type.PHOTO;
 		url: string;
 		width: number;
-		heigth: number;
+		height: number;
 	}
 
 	export interface VideoResponse extends Response {
@@ -45,6 +45,21 @@ export module oEmbed {
 		 */
 		html: string;
 		width: number;
-		heigth: number;
+		height: number;
+
+		/** Some Providers (like Vimeo) provide this attribute */
+		duration?: number;
+	}
+
+	// =======================================================
+	// == TYPE GUARDS
+	// =======================================================
+
+	export function isPhoto(response: Response): response is PhotoResponse {
+		return response.type === Type.PHOTO;
+	}
+
+	export function isVideo(response: Response): response is VideoResponse {
+		return response.type === Type.VIDEO;
 	}
 }

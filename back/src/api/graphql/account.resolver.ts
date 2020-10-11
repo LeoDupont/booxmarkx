@@ -15,7 +15,7 @@ export class AccountResolver {
 	// =======================================================
 
 	@Mutation(returns => Account, { description: "To sign up to a new account" })
-	register(
+	registerAccount(
 		@Arg('mail') mail: string,
 		@Arg('pwd') pwd: string,
 	) {
@@ -28,7 +28,7 @@ export class AccountResolver {
 
 	@Authorized()
 	@Mutation(returns => Account, { description: "To delete one's own Account. Must be authenticated." })
-	delete(
+	deleteAccount(
 		@Ctx() ctx: GraphqlContext,
 	) {
 		return AccountsService.deleteAccount(ctx.account._id);
