@@ -1,8 +1,9 @@
 import { DocumentType } from "@typegoose/typegoose";
 import { Arg, Authorized, Ctx, FieldResolver, Mutation, Query, Resolver, ResolverInterface, Root } from "type-graphql";
 import { Author, AuthorModel } from "../../models/author.model";
-import { Bookmark } from "../../models/bookmark.model";
+import { Bookmark, BookmarkModel } from "../../models/bookmark.model";
 import { BookmarksService } from "../../services/bookmarks.service";
+import { TagsService } from "../../services/tags.service";
 import { GraphqlContext } from "./init-graphql";
 
 @Resolver(Bookmark)
@@ -15,7 +16,7 @@ export class BookmarkResolver {
 	// =======================================================
 
 	@Authorized()
-	@Mutation(returns => Bookmark, { description: "To create a new Bookmark" })
+	@Mutation(returns => Bookmark, { description: "To create a new Bookmark. Must be authenticated." })
 	createBookmark(
 		@Ctx() ctx: GraphqlContext,
 		@Arg('url') url: string,
@@ -26,11 +27,29 @@ export class BookmarkResolver {
 	}
 
 	// =======================================================
+	// == UPDATE
+	// =======================================================
+
+	@Authorized()
+	@Mutation(returns => Boolean, { description: "To set the tags of an existing Bookmark. Must be authenticated." })
+	async setTags(
+		@Ctx() ctx: GraphqlContext,
+		@Arg('id') id: string,
+		@Arg('tags', type => [String]) tags: string[],
+	) {
+		await TagsService.setBookmarkTags(
+			{ bookmarkId: id, accountId: ctx.account._id },
+			tags
+		);
+		return true;
+	}
+
+	// =======================================================
 	// == DELETE
 	// =======================================================
 
 	@Authorized()
-	@Mutation(returns => Bookmark, { description: "To delete an existing Bookmark" })
+	@Mutation(returns => Bookmark, { description: "To delete an existing Bookmark. Must be authenticated." })
 	deleteBookmark(
 		@Ctx() ctx: GraphqlContext,
 		@Arg('id') id: string,
@@ -68,7 +87,7 @@ export class BookmarkResolver {
 	// =======================================================
 
 	@Authorized()
-	@FieldResolver(returns => Author, { nullable: true })
+	@FieldResolver(returns => Author, { nullable: true, description: "Finds the Author related to a Bookmark. Must be authenticated." })
 	async author(
 		@Root() bookmark: { _doc: Bookmark },
 	) {

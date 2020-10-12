@@ -23,6 +23,15 @@ export class Author {
 	public url!: string;
 }
 
+@ObjectType()
+export class AuthorWithCount {
+	@Field(type => Author)
+	public author!: Author;
+
+	@Field()
+	public count!: number;
+}
+
 /**
  * Mongoose Author model.\
  * _Generated from the base `Author` class._

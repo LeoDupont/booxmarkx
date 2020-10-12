@@ -8,6 +8,7 @@ import { AccountResolver } from "./account.resolver";
 import { auth } from "../utils/authenticated.middleware";
 import { BookmarkResolver } from "./bookmark.resolver";
 import { AuthorResolver } from "./author.resolver";
+import { TagResolver } from "./tag.resolver";
 
 export type GraphqlContext = {
 	req: Request,
@@ -31,6 +32,7 @@ export async function initGraphqlEndpoint(app: Application) {
 			AccountResolver,
 			BookmarkResolver,
 			AuthorResolver,
+			TagResolver,
 		],
 		authChecker: authChecker
 	});

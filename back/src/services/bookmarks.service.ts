@@ -7,6 +7,7 @@ import { MiscUtils } from "../utils/misc.utils";
 import { oEmbed } from "../utils/oembed/oembed";
 import { ProvidersManager } from "../utils/oembed/providers/providers-manager";
 import { AuthorsService } from "./authors.service";
+import { TagsService } from "./tags.service";
 
 export module BookmarksService {
 
@@ -50,7 +51,7 @@ export module BookmarksService {
 			url,
 			createdAt: now,
 			updatedAt: now,
-			tags: metadata?.tags?.map(InputCleaner.tag) ?? [],
+			tags: [],
 			type: mediaInfo.type,
 			source: provider.NAME,
 			thumbnailUrl: mediaInfo.thumbnail_url,
@@ -70,6 +71,8 @@ export module BookmarksService {
 			bookmarkDTO.duration = mediaInfo.duration;
 			bookmarkDTO.embedHtml = mediaInfo.html;
 		}
+
+		await TagsService.setBookmarkTags({ bookmarkDTO }, metadata?.tags);
 
 		const bookmark = await BookmarkModel.create(bookmarkDTO);
 		return bookmark;
