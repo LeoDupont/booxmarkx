@@ -1,5 +1,5 @@
 {
-	"name": "booxmarkx",
+	"name": "booxmarkx-api",
 	"version": "1.0.0",
 	"description": "A Flickr and Vimeo bookmarks manager",
 	"main": "dist/server.js",
