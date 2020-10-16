@@ -1,0 +1,18 @@
+##
+# GraphQL Codegen uses the final GraphQL built schema to generate typings for applications consuming our API.
+#
+# How to use:
+# 1. Start the API with `npm run dev`
+# 2. Generate the types definition file with `npm run generate`
+# 3. ???
+# 4. Profit
+#
+# Doc : https://graphql-code-generator.com/docs/getting-started/index
+##
+schema: http://localhost:8080/graphql
+generates:
+  ../front/src/types/graphql-schema.d.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
