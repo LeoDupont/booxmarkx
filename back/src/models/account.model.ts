@@ -32,3 +32,15 @@ export class Account {
  * _Generated from the base `Account` class._
  */
 export const AccountModel = getModelForClass(Account);
+
+/**
+ * Only used as a return type for the GraphQL query `authenticate`.
+ */
+@ObjectType()
+export class AuthResponse {
+	@Field({ description: "A token authenticating the Account" })
+	token!: string;
+
+	@Field(type => Account, { description: "The Account details" })
+	account!: Account;
+}

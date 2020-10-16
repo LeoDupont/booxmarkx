@@ -1,6 +1,6 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { Config } from "../../config";
-import { Account } from "../../models/account.model";
+import { Account, AuthResponse } from "../../models/account.model";
 import { AccountsService } from "../../services/accounts.service";
 import { TokensManager } from "../utils/tokens-manager";
 import { GraphqlContext } from "./init-graphql";
@@ -38,16 +38,20 @@ export class AccountResolver {
 	// == AUTHENTICATE
 	// =======================================================
 
-	@Mutation(returns => Account, { nullable: true, description: "To log in to an existing account" })
+	@Mutation(returns => AuthResponse, { nullable: true, description: "To log in to an existing account" })
 	async authenticate(
 		@Arg('mail') mail: string,
 		@Arg('pwd') pwd: string,
 		@Arg('long', { description: "To a get a long-lasting cookie (31 days)" }) long: boolean,
 		@Ctx() ctx: GraphqlContext,
 	) {
-		const { token, account } = await AccountsService.authenticate(mail, pwd, long);
-		TokensManager.setTokenCookie(ctx.res, token);
-		return account;
+		const authResponse = await AccountsService.authenticate(mail, pwd, long);
+
+		// Set a cookie for web clients:
+		TokensManager.setTokenCookie(ctx.res, authResponse.token);
+
+		// Send the token along for mobile clients:
+		return authResponse;
 	}
 
 	// =======================================================

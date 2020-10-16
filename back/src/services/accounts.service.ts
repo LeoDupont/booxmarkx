@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Config } from "../config";
-import { Account, AccountModel } from "../models/account.model";
+import { Account, AccountModel, AuthResponse } from "../models/account.model";
 import { InputCleaner } from "../utils/input-cleaner";
 import { TokensUtils } from "../utils/tokens.utils";
 
@@ -19,12 +19,12 @@ export module AccountsService {
 		DEFAULT: '10m',
 		/** Long session: 31 days */
 		LONG: '31d',
-	}
+	};
 
 	export type TokenPayload = {
 		/** Account ID */
 		sub: string,
-	}
+	};
 
 	/**
 	 * Returns an authenticating token for a given Account.
@@ -146,7 +146,7 @@ export module AccountsService {
 		// Generate token:
 		const token = await getTokenForAccount(account, longSession);
 
-		return { token, account };
+		return { token, account } as AuthResponse;
 	}
 
 	// =======================================================
@@ -164,7 +164,7 @@ export module AccountsService {
 		query: { _id?: string, mail?: string },
 		errorMessage: string = "Account not found"
 	) {
-		let account = await AccountModel.findOne(query);
+		const account = await AccountModel.findOne(query);
 		if (!account) {
 			throw new Error(errorMessage);
 		}
