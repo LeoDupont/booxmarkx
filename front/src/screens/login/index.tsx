@@ -1,33 +1,26 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { RootStackParamList } from "../../../App";
+import { RootStackParamList } from "../../navigations";
 import { PrimaryButton } from "../../components/atoms/buttons";
-import { AuthenticationService } from "../../services/authentication.service";
+import { AuthContext } from "../../services/auth-context.provider";
 
 type LoginScreenProps = StackScreenProps<RootStackParamList, 'Login'>;
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
 	// State:
-	let [mail, setMail] = useState('');
-	let [pwd, setPwd] = useState('');
+	let [mail, setMail] = useState('leo.dpt@gmail.com');
+	let [pwd, setPwd] = useState('azerty');
 	let [result, setResult] = useState('');
 	let [errorMsg, setErrorMsg] = useState('');
 
+	const { signIn } = React.useContext(AuthContext);
+
 	// Auth:
-	const auth = () => {
+	const auth = async () => {
 		Keyboard.dismiss();
-		AuthenticationService.authenticate(mail, pwd)
-			.then(data => {
-				setResult(JSON.stringify(data));
-				setErrorMsg('');
-			})
-			.catch(err => {
-				setErrorMsg(err.message);
-				setResult('');
-			})
-		;
+		await signIn({ mail, pwd, long: true });
 	};
 
 	// Render:
@@ -41,6 +34,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 						autoCapitalize="none"
 						keyboardType="email-address"
 						returnKeyType="next"
+						defaultValue={mail}
 					/>
 					<TextInput
 						onChangeText={setPwd}
@@ -50,6 +44,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 						secureTextEntry={true}
 						returnKeyType="go"
 						onSubmitEditing={auth}
+						defaultValue={pwd}
 					/>
 					<PrimaryButton
 						text="Log in"
