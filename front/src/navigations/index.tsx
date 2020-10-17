@@ -8,13 +8,13 @@ import { LoginScreen } from "../features/account/LoginScreen";
 import { SignUpScreen } from "../features/account/SignUpScreen";
 import { SplashScreen } from "../features/splashscreen";
 import { selectAccount } from "../features/account/accountSlice";
+import { Bookmark } from "../types/graphql-schema";
+import { BookmarksNavigator } from "../features/bookmarks";
 
 export type RootStackParamList = {
 	SplashScreen: undefined,
 	Login: undefined,
 	SignUp: undefined,
-	Bookmarks: undefined,
-	Bookmark: undefined,
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -63,16 +63,7 @@ export const Navigator = () => {
 	else {
 		console.log("[nav] account");
 		navigator =(
-			<Stack.Navigator>
-				<Stack.Screen
-					name="Bookmarks"
-					component={ BookmarksScreen }
-				/>
-				<Stack.Screen
-					name="Bookmark"
-					component={ BookmarkDetailScreen }
-				/>
-			</Stack.Navigator>
+			<BookmarksNavigator/>
 		);
 	}
 

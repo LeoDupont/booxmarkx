@@ -2,54 +2,34 @@ import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from "react-native";
 import { useQuery } from "@apollo/client";
 import { StackScreenProps } from "@react-navigation/stack";
-import { BookmarksList } from "../../components/organisms/bookmarks-list";
+import { BookmarksList } from "./components/BookmarksList";
 import { RootStackParamList } from "../../navigations";
-import { Bookmark } from "../../types/graphql-schema";
+import { Bookmark, QueryBookmarksArgs } from "../../types/graphql-schema";
 import { BookmarksApi } from "./bookmarksApi";
+import { BookmarksListFilters } from "./components/BookmarksListFilters";
+import { BookmarksScreensList } from ".";
 
-type BookmarksScreenProps = StackScreenProps<RootStackParamList, 'Bookmarks'>;
-export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({ navigation }) => {
-	// Filters:
-	let [title, setTitleFilter] = useState('');
+type BookmarksScreenProps = StackScreenProps<BookmarksScreensList, 'Bookmarks'>;
+export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({
+	navigation,
+}) => {
+	// State:
+	let [filters, setFilters] = useState<QueryBookmarksArgs>({});
 
-	// Query:
-	let { loading, error, data } = useQuery<{ bookmarks: Bookmark[] }>(
-		BookmarksApi.BOOKMARKS.query,
-		{
-			variables: BookmarksApi.BOOKMARKS.variables({
-				title,
-			}),
-		}
-	);
-
-	console.log({ loading, error });
-
-	if (loading) {
-		return (
-			<Text>Loading...</Text>
-		);
-	}
-	if (error) {
-		return (
-			<Text>Error! {error.message}</Text>
-		)
-	}
-
-	console.log({ data });
+	// Actions:
+	const onBookmarkSelect = (bookmark: Bookmark) => {
+		navigation.navigate("Bookmark", { bookmark });
+	};
 
 	// Render:
 	return (
 		<KeyboardAvoidingView enabled style={styles.container}>
-			<TextInput
-				onChangeText={setTitleFilter}
-				placeholder="Title..."
-				autoCapitalize="sentences"
-				keyboardType="default"
-				returnKeyType="search"
-				defaultValue={title}
+			<BookmarksListFilters
+				onFilterChange={setFilters}
 			/>
 			<BookmarksList
-				bookmarks={data?.bookmarks}
+				filters={filters}
+				onSelect={onBookmarkSelect}
 			/>
 		</KeyboardAvoidingView>
 	);

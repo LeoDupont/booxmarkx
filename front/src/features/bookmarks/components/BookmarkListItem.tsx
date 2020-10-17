@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image, ImageSourcePropType, ImageURISource } from "react-native";
-import { Bookmark } from "../../types/graphql-schema";
+import { Bookmark } from "../../../types/graphql-schema";
 
 // =======================================================
 // == LOGOS
@@ -9,22 +9,28 @@ import { Bookmark } from "../../types/graphql-schema";
 type ImageDictionary = { [key: string]: ImageURISource };
 
 const PROVIDERS_LOGOS: ImageDictionary = {
-	Vimeo: require('../../assets/providers/vimeo.svg'),
-	Flickr: require('../../assets/providers/flickr.svg'),
+	Vimeo: require('../../../assets/providers/vimeo.svg'),
+	Flickr: require('../../../assets/providers/flickr.svg'),
 };
 
 const MEDIA_TYPES_LOGOS: ImageDictionary = {
-	video: require('../../assets/media-types/video.svg'),
-	image: require('../../assets/media-types/image.svg'),
-	unknown: require('../../assets/media-types/unknown.svg'),
+	video: require('../../../assets/media-types/video.svg'),
+	image: require('../../../assets/media-types/image.svg'),
+	unknown: require('../../../assets/media-types/unknown.svg'),
 };
 
 // =======================================================
 // == BookmarkView
 // =======================================================
 
-type BookmarkViewProps = { bookmark: Bookmark };
-export const BookmarkView: React.FC<BookmarkViewProps> = ({ bookmark }) => {
+type BookmarkListItemProps = {
+	bookmark: Bookmark,
+	onSelect: Function,
+};
+export const BookmarkListItem: React.FC<BookmarkListItemProps> = ({
+	bookmark,
+	onSelect,
+}) => {
 
 	let imageSource: ImageSourcePropType;
 	if (bookmark.thumbnailUrl) {
@@ -41,14 +47,14 @@ export const BookmarkView: React.FC<BookmarkViewProps> = ({ bookmark }) => {
 	return (
 		<TouchableOpacity
 			key={bookmark._id}
-			onPress={() => console.log(bookmark)}
+			onPress={() => onSelect()}
 		>
 			<View style={{ flexDirection: 'row' }}>
 				<Image
 					source={imageSource}
-					width={bookmarkViewStyles.thumb.width}
-					height={bookmarkViewStyles.thumb.height}
-					style={bookmarkViewStyles.thumb}
+					width={styles.thumb.width}
+					height={styles.thumb.height}
+					style={styles.thumb}
 				/>
 				<View>
 					<Text>{bookmark.title}</Text>
@@ -63,7 +69,7 @@ export const BookmarkView: React.FC<BookmarkViewProps> = ({ bookmark }) => {
 // == STYLES
 // =======================================================
 
-const bookmarkViewStyles = StyleSheet.create({
+const styles = StyleSheet.create({
 
 	thumb: {
 		width: 50,
