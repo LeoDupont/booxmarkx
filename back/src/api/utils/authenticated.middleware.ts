@@ -11,7 +11,7 @@ import { TokensManager } from "./tokens-manager";
 export function auth(optional: boolean = false) {
 	return async (req: Request, res: Response, next: NextFunction) => {
 
-		const token = TokensManager.getTokenCookie(req);
+		const token = TokensManager.getTokenFromRequest(req);
 
 		try {
 			const account = await AccountsService.getAccountFromToken(token);

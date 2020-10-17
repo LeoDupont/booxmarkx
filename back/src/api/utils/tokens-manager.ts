@@ -35,18 +35,27 @@ export module TokensManager {
 	}
 
 	/**
-	 * Reads the token cookie, if exists.
+	 * Reads the token from the cookies (ex: web clients) or the headers (ex: mobile clients).
 	 * @param req Express Request
 	 * @param errorMessage If provided, will throw this message
-	 * @returns The token from the cookies
-	 * @throws `errorMessage` if there is not token cookie and a message is provided
+	 * @returns The token sent with the request
+	 * @throws `errorMessage` if provided and there is no token
 	 */
-	export function getTokenCookie(req: Request, errorMessage?: string) {
-		const token = req.cookies[TOKEN_COOKIE_NAME];
-		if (!token && errorMessage) {
+	export function getTokenFromRequest(req: Request, errorMessage?: string) {
+
+		const tokenFromCookie = req.cookies[TOKEN_COOKIE_NAME];
+		if (tokenFromCookie) {
+			return tokenFromCookie;
+		}
+
+		const tokenFromHeaders = req.get(TOKEN_COOKIE_NAME);
+		if (tokenFromHeaders) {
+			return tokenFromHeaders;
+		}
+
+		if (errorMessage) {
 			throw new Error(errorMessage);
 		}
-		return token;
 	}
 
 }
