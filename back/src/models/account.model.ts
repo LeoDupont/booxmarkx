@@ -11,19 +11,19 @@ import { Field, ID, ObjectType } from "type-graphql";
 @ObjectType()
 export class Account {
 	// @prop(): not mentioned to the Mongoose model because we want to let Mongoose create an _id by itself
-	@Field(type => ID, { nullable: true })
+	@Field(type => ID)
 	public _id!: string;
 
 	@prop({ index: true, unique: true })
-	@Field({ nullable: true })
+	@Field()
 	public mail!: string;
 
 	@prop()
-	@Field({ nullable: true })
+	@Field()
 	public pwd!: string;
 
 	@prop()
-	@Field({ nullable: true })
+	@Field()
 	public createdAt!: Date;
 }
 

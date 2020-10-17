@@ -22,31 +22,31 @@ export class Bookmark {
 	// === COMMON BOOKMARKS ATTRIBUTES ===
 
 	// @prop(): not mentioned to the Mongoose model because we want to let Mongoose create an _id by itself
-	@Field(type => ID, { nullable: true })
+	@Field(type => ID)
 	public _id?: string;
 
 	@prop()
-	@Field(type => ID, { nullable: true })
+	@Field(type => ID)
 	public accountId!: string;
 
 	@prop({ index: true, text: true })
-	@Field({ nullable: true })
+	@Field()
 	public title!: string;
 
 	@prop()
-	@Field({ nullable: true })
+	@Field()
 	public url!: string;
 
 	@prop()
-	@Field({ nullable: true })
+	@Field()
 	public authorId?: string;
 
 	@prop()
-	@Field({ nullable: true })
+	@Field()
 	public createdAt!: Date;
 
 	@prop()
-	@Field({ nullable: true })
+	@Field()
 	public updatedAt!: Date;
 
 	@prop({ type: [String] })
@@ -57,11 +57,11 @@ export class Bookmark {
 	// @Field(type => BookmarkType, { nullable: true, description: "Bookmark type (ex: video, image)" })
 	// type!: BookmarkType;
 	@prop()
-	@Field({ nullable: true, description: "Bookmark type (ex: video, image)" })
+	@Field({ description: "Bookmark type (ex: video, image)" })
 	type!: string;
 
 	@prop()
-	@Field({ nullable: true, description: "Bookmark source (ex: Vimeo, Flickr)" })
+	@Field({ description: "Bookmark source (ex: Vimeo, Flickr)" })
 	source!: string;
 
 	@prop()

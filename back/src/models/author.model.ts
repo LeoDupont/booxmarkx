@@ -11,15 +11,15 @@ import { Field, ID, ObjectType } from "type-graphql";
 @ObjectType()
 export class Author {
 	// @prop(): not mentioned to the Mongoose model because we want to let Mongoose create an _id by itself
-	@Field(type => ID, { nullable: true })
+	@Field(type => ID)
 	public _id?: string;
 
 	@prop({ index: true })
-	@Field({ nullable: true })
+	@Field()
 	public name!: string;
 
 	@prop({ index: true, unique: true })
-	@Field({ nullable: true })
+	@Field()
 	public url!: string;
 }
 

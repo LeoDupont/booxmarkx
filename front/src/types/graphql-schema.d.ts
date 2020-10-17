@@ -47,28 +47,28 @@ export type QueryAuthorArgs = {
 
 export type Account = {
   __typename?: 'Account';
-  _id?: Maybe<Scalars['ID']>;
-  mail?: Maybe<Scalars['String']>;
-  pwd?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
+  _id: Scalars['ID'];
+  mail: Scalars['String'];
+  pwd: Scalars['String'];
+  createdAt: Scalars['DateTime'];
 };
 
 
 export type Bookmark = {
   __typename?: 'Bookmark';
-  _id?: Maybe<Scalars['ID']>;
-  accountId?: Maybe<Scalars['ID']>;
-  title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  authorId?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  _id: Scalars['ID'];
+  accountId: Scalars['ID'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+  authorId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   /** Array of tags */
   tags?: Maybe<Array<Scalars['String']>>;
   /** Bookmark type (ex: video, image) */
-  type?: Maybe<Scalars['String']>;
+  type: Scalars['String'];
   /** Bookmark source (ex: Vimeo, Flickr) */
-  source?: Maybe<Scalars['String']>;
+  source: Scalars['String'];
   thumbnailUrl?: Maybe<Scalars['String']>;
   embedHtml?: Maybe<Scalars['String']>;
   /** Width (in pixels) */
@@ -83,9 +83,9 @@ export type Bookmark = {
 
 export type Author = {
   __typename?: 'Author';
-  _id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
+  _id: Scalars['ID'];
+  name: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type AuthorWithCount = {
