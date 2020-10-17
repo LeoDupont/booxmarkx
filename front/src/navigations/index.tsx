@@ -1,12 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { BookmarkScreen } from "../screens/bookmark";
-import { BookmarksScreen } from "../screens/bookmarks";
-import { LoginScreen } from "../screens/login";
-import { SignUpScreen } from "../screens/signup";
-import { AuthContext } from "../services/auth-context.provider";
-import { LoadingScreen } from "../screens/loading";
+import { BookmarkDetailScreen } from "../features/bookmarks/BookmarkDetailScreen";
+import { BookmarksScreen } from "../features/bookmarks/BookmarksMasterScreen";
+import { LoginScreen } from "../features/account/LoginScreen";
+import { SignUpScreen } from "../features/account/SignUpScreen";
+import { SplashScreen } from "../features/splashscreen";
+import { selectAccount } from "../features/account/accountSlice";
 
 export type RootStackParamList = {
 	Loading: undefined,
@@ -19,49 +20,62 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export const Navigator = () => {
-	const authCtx = React.useContext(AuthContext);
-	const authState = authCtx.getState();
+	const { account, loading } = useSelector(selectAccount);
 
-	const loadingNavigator = (
-		<Stack.Navigator>
-			<Stack.Screen name="Loading" component={ LoadingScreen } />
-		</Stack.Navigator>
-	);
+	console.log("Navigator:", { account, loading });
 
-	const authNavigator = (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Login"
-				component={ LoginScreen }
-			/>
-			<Stack.Screen
-				name="SignUp"
-				component={ SignUpScreen }
-			/>
-		</Stack.Navigator>
-	);
+	let navigator: JSX.Element;
 
-	const appNavigator = (
-		<Stack.Navigator>
-			<Stack.Screen
-				name="Bookmarks"
-				component={ BookmarksScreen }
-			/>
-			<Stack.Screen
-				name="Bookmark"
-				component={ BookmarkScreen }
-			/>
-		</Stack.Navigator>
-	);
+	// === Loading Account ===
+
+	if (loading) {
+		console.log("[nav] loading");
+		navigator = (
+			<Stack.Navigator>
+				<Stack.Screen name="Loading" component={ SplashScreen } />
+			</Stack.Navigator>
+		);
+	}
+
+	// === Not signed in ===
+
+	else if (!account) {
+		console.log("[nav] no account");
+		navigator = (
+			<Stack.Navigator>
+				<Stack.Screen
+					name="Login"
+					component={ LoginScreen }
+				/>
+				<Stack.Screen
+					name="SignUp"
+					component={ SignUpScreen }
+				/>
+			</Stack.Navigator>
+		);
+	}
+
+	// === Signed in ===
+
+	else {
+		console.log("[nav] account");
+		navigator =(
+			<Stack.Navigator>
+				<Stack.Screen
+					name="Bookmarks"
+					component={ BookmarksScreen }
+				/>
+				<Stack.Screen
+					name="Bookmark"
+					component={ BookmarkDetailScreen }
+				/>
+			</Stack.Navigator>
+		);
+	}
 
 	return (
 		<NavigationContainer>
-			{
-				authState.loading ? loadingNavigator : (
-					authState.account ? appNavigator :
-					authNavigator
-				)
-			}
+			{ navigator }
 		</NavigationContainer>
 	)
 }

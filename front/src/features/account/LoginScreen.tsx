@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { RootStackParamList } from "../../navigations";
 import { PrimaryButton } from "../../components/atoms/buttons";
-import { AuthContext } from "../../services/auth-context.provider";
+import { logIn } from "./accountSlice";
+import { useDispatch } from "react-redux";
+// import { AuthContext } from "../../../services/auth-context.provider";
 
 type LoginScreenProps = StackScreenProps<RootStackParamList, 'Login'>;
 
@@ -15,12 +17,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 	let [result, setResult] = useState('');
 	let [errorMsg, setErrorMsg] = useState('');
 
-	const { signIn } = React.useContext(AuthContext);
+	const dispatch = useDispatch();
 
 	// Auth:
-	const auth = async () => {
+	const auth = () => {
 		Keyboard.dismiss();
-		await signIn({ mail, pwd, long: true });
+		dispatch(logIn({ mail, pwd, long: true }));
 	};
 
 	// Render:

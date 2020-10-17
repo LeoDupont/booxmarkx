@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import AsyncStorage from "@react-native-community/async-storage";
-import { AuthResponse, MutationAuthenticateArgs } from "../types/graphql-schema";
-import { GraphQLClient } from "./apollo-graphql-client-init";
+import { AuthResponse, MutationAuthenticateArgs } from "../../types/graphql-schema";
+import { GraphQLClient } from "../../state/apollo-graphql-client";
 
 export const TOKEN_KEY = "boox-tk";
 
