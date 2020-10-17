@@ -1,8 +1,12 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Config } from "../config";
-import { TOKEN_KEY } from "./authentication.service";
+import { TOKEN_KEY } from "../features/account/auth-service";
 
+/**
+ * Example usage of Apollo Client as a state management solution.
+ * https://www.apollographql.com/blog/dispatch-this-using-apollo-client-3-as-a-state-management-solution/
+ */
 export module GraphQLClient {
 
 	let _token: string | null;

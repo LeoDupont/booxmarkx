@@ -1,18 +1,18 @@
+import React from "react";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@apollo/client";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, FlatList, Text, View } from "react-native";
-import { BookmarkView } from "../../components/molecules/bookmark-view";
+import { BookmarksList } from "../../components/organisms/bookmarks-list";
 import { RootStackParamList } from "../../navigations";
-import { BookmarksService } from "../../services/bookmarks.service";
 import { Bookmark } from "../../types/graphql-schema";
+import { BookmarksApi } from "./bookmarksApi";
 
 type BookmarksScreenProps = StackScreenProps<RootStackParamList, 'Bookmarks'>;
 export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({ navigation }) => {
 
 	// State:
 	let { loading, error, data } = useQuery<{ bookmarks: Bookmark[] }>(
-		BookmarksService.queryBookmarksGql,
+		BookmarksApi.queryBookmarksGql,
 	);
 
 	console.log({ loading, error, data });
@@ -31,11 +31,9 @@ export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({ navigation }) 
 	// Render:
 	return (
 		<View style={styles.container}>
-			<FlatList
-				data={data?.bookmarks}
-				keyExtractor={item => item._id}
-				renderItem={({item}) => BookmarkView({ bookmark: item })}
-			></FlatList>
+			<BookmarksList
+				bookmarks={data?.bookmarks}
+			/>
 		</View>
 	);
 }

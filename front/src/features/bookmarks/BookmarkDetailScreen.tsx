@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text } from "react-native";
 
-export class BookmarkScreen extends Component {
+export class BookmarkDetailScreen extends Component {
 
 	render() {
 		return (

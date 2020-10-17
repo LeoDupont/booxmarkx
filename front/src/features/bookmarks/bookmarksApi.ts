@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export module BookmarksService {
+export module BookmarksApi {
 	export const queryBookmarksGql = gql`
 		query {
 			bookmarks {

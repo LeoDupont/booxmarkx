@@ -1,17 +1,19 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Text, View, Image, ImageSourcePropType } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View, Image, ImageSourcePropType, ImageURISource } from "react-native";
 import { Bookmark } from "../../types/graphql-schema";
 
 // =======================================================
 // == LOGOS
 // =======================================================
 
-const PROVIDERS_LOGOS = {
+type ImageDictionary = { [key: string]: ImageURISource };
+
+const PROVIDERS_LOGOS: ImageDictionary = {
 	Vimeo: require('../../assets/providers/vimeo.svg'),
 	Flickr: require('../../assets/providers/flickr.svg'),
 };
 
-const MEDIA_TYPES_LOGOS = {
+const MEDIA_TYPES_LOGOS: ImageDictionary = {
 	video: require('../../assets/media-types/video.svg'),
 	image: require('../../assets/media-types/image.svg'),
 	unknown: require('../../assets/media-types/unknown.svg'),
@@ -50,7 +52,7 @@ export const BookmarkView: React.FC<BookmarkViewProps> = ({ bookmark }) => {
 				/>
 				<View>
 					<Text>{bookmark.title}</Text>
-					<Text>{bookmark.author.name}</Text>
+					<Text>{bookmark.author?.name || 'unknown'}</Text>
 				</View>
 			</View>
 		</TouchableOpacity>
