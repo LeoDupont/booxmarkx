@@ -1,5 +1,5 @@
-import React from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from "react-native";
 import { useQuery } from "@apollo/client";
 import { StackScreenProps } from "@react-navigation/stack";
 import { BookmarksList } from "../../components/organisms/bookmarks-list";
@@ -9,13 +9,20 @@ import { BookmarksApi } from "./bookmarksApi";
 
 type BookmarksScreenProps = StackScreenProps<RootStackParamList, 'Bookmarks'>;
 export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({ navigation }) => {
+	// Filters:
+	let [title, setTitleFilter] = useState('');
 
-	// State:
+	// Query:
 	let { loading, error, data } = useQuery<{ bookmarks: Bookmark[] }>(
-		BookmarksApi.queryBookmarksGql,
+		BookmarksApi.BOOKMARKS.query,
+		{
+			variables: BookmarksApi.BOOKMARKS.variables({
+				title,
+			}),
+		}
 	);
 
-	console.log({ loading, error, data });
+	console.log({ loading, error });
 
 	if (loading) {
 		return (
@@ -28,13 +35,23 @@ export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({ navigation }) 
 		)
 	}
 
+	console.log({ data });
+
 	// Render:
 	return (
-		<View style={styles.container}>
+		<KeyboardAvoidingView enabled style={styles.container}>
+			<TextInput
+				onChangeText={setTitleFilter}
+				placeholder="Title..."
+				autoCapitalize="sentences"
+				keyboardType="default"
+				returnKeyType="search"
+				defaultValue={title}
+			/>
 			<BookmarksList
 				bookmarks={data?.bookmarks}
 			/>
-		</View>
+		</KeyboardAvoidingView>
 	);
 }
 
