@@ -58,8 +58,9 @@ export type Bookmark = {
   __typename?: 'Bookmark';
   _id: Scalars['ID'];
   accountId: Scalars['ID'];
+  /** Link to the web page of the media */
+  pageUrl: Scalars['String'];
   title: Scalars['String'];
-  url: Scalars['String'];
   authorId: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -69,14 +70,20 @@ export type Bookmark = {
   type: Scalars['String'];
   /** Bookmark source (ex: Vimeo, Flickr) */
   source: Scalars['String'];
-  thumbnailUrl?: Maybe<Scalars['String']>;
-  embedHtml?: Maybe<Scalars['String']>;
   /** Width (in pixels) */
-  width?: Maybe<Scalars['Float']>;
+  width: Scalars['Float'];
   /** Height (in pixels) */
-  height?: Maybe<Scalars['Float']>;
+  height: Scalars['Float'];
   /** Video duration (in seconds) */
   duration?: Maybe<Scalars['Float']>;
+  /** Thumbnail displayed in the Bookmarks list */
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  /** Direct link to the image */
+  imageUrl?: Maybe<Scalars['String']>;
+  /** Embed HTML code to preview the video (on Web clients) */
+  embedHtml?: Maybe<Scalars['String']>;
+  /** Source URL of the video, extracted from embedHtml. To preview the video (on mobile clients) */
+  videoSourceUrl?: Maybe<Scalars['String']>;
   /** Finds the Author related to a Bookmark. Must be authenticated. */
   author?: Maybe<Author>;
 };
@@ -115,7 +122,7 @@ export type Mutation = {
   /** To set the tags of an existing Bookmark. Must be authenticated. */
   setTags: Scalars['Boolean'];
   /** To delete an existing Bookmark. Must be authenticated. */
-  deleteBookmark: Bookmark;
+  deleteBookmark: Scalars['Boolean'];
 };
 
 

@@ -29,13 +29,13 @@ export class Bookmark {
 	@Field(type => ID)
 	public accountId!: string;
 
+	@prop()
+	@Field({ description: "Link to the web page of the media" })
+	public pageUrl!: string;
+
 	@prop({ index: true, text: true })
 	@Field()
 	public title!: string;
-
-	@prop()
-	@Field()
-	public url!: string;
 
 	@prop()
 	@Field()
@@ -64,29 +64,39 @@ export class Bookmark {
 	@Field({ description: "Bookmark source (ex: Vimeo, Flickr)" })
 	source!: string;
 
-	@prop()
-	@Field({ nullable: true })
-	public thumbnailUrl?: string;
-
-	@prop()
-	@Field({ nullable: true })
-	public embedHtml?: string;
-
 	// === COMMON PICTURAL MEDIA ATTRIBUTES ===
 
 	@prop()
-	@Field({ nullable: true, description: "Width (in pixels)" })
-	public width?: number;
+	@Field({ description: "Width (in pixels)" })
+	public width!: number;
 
 	@prop()
-	@Field({ nullable: true, description: "Height (in pixels)" })
-	public height?: number;
+	@Field({ description: "Height (in pixels)" })
+	public height!: number;
 
 	// === VIDEO-SPECIFIC ATTRIBUTES ===
 
 	@prop()
 	@Field({ nullable: true, description: "Video duration (in seconds)" })
 	public duration?: number;
+
+	// === Thumbnail ===
+
+	@prop()
+	@Field({ nullable: true, description: "Thumbnail displayed in the Bookmarks list" })
+	public thumbnailUrl?: string;
+
+	// === Preview ===
+
+	@prop()
+	@Field({ nullable: true, description: "Direct link to the image" })
+	public imageUrl?: string;
+	@prop()
+	@Field({ nullable: true, description: "Embed HTML code to preview the video (on Web clients)" })
+	public embedHtml?: string;
+	@prop()
+	@Field({ nullable: true, description: "Source URL of the video, extracted from embedHtml. To preview the video (on mobile clients)" })
+	public videoSourceUrl?: string;
 }
 
 /**

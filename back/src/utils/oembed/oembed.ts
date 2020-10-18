@@ -29,26 +29,39 @@ export module oEmbed {
 		thumbnail_url?: string;
 		thumbnail_width?: number;
 		thumbnail_height?: number;
-	}
 
-	export interface PhotoResponse extends Response {
-		type: Type.PHOTO;
-		url: string;
-		width: number;
-		height: number;
-	}
-
-	export interface VideoResponse extends Response {
-		type: Type.VIDEO;
 		/**
 		 * The HTML required to embed a video player. The HTML should have no padding or margins. Consumers may wish to load the HTML in an off-domain iframe to avoid XSS vulnerabilities.
 		 */
 		html: string;
+	}
+
+	export interface PhotoResponse extends Response {
+		type: Type.PHOTO;
+
+		/** Direct link to the image file */
+		url: string;
+
+		width: number;
+		height: number;
+
+		/** Link to the web page of the image */
+		web_page?: string;
+	}
+
+	export interface VideoResponse extends Response {
+		type: Type.VIDEO;
+
 		width: number;
 		height: number;
 
 		/** Some Providers (like Vimeo) provide this attribute */
 		duration?: number;
+
+		thumbnail_url_with_play_button?: string;
+
+		/** Extracted by Booxmarkx API from `html` when possible */
+		videoSourceUrl?: string;
 	}
 
 	// =======================================================

@@ -29,7 +29,6 @@ export module BookmarksService {
 		title?: string,
 		tags?: string[],
 	}) {
-
 		// === Get media data ===
 
 		const { provider, mediaInfo } = await getMediaInfo(url);
@@ -41,38 +40,50 @@ export module BookmarksService {
 			author = await AuthorsService.recordAuthor(mediaInfo.author_name, mediaInfo.author_url);
 		}
 
-		// === Create Bookmark ===
+		// === Define media URL, thumbnail and preview ===
 
 		const now = new Date();
 
+		// Defaults:
 		const bookmarkDTO: Bookmark = {
 			accountId,
-			title: metadata?.title || mediaInfo.title || '',
-			url,
+			type: mediaInfo.type,
+			source: provider.NAME,
+
+			authorId: author?._id,
+
+			title: metadata?.title || mediaInfo.title || '???',
 			createdAt: now,
 			updatedAt: now,
 			tags: [],
-			type: mediaInfo.type,
-			source: provider.NAME,
+
+			pageUrl: url,
 			thumbnailUrl: mediaInfo.thumbnail_url,
+			embedHtml: mediaInfo.html,
+
+			height: mediaInfo.height,
+			width: mediaInfo.width,
 		};
 
-		if (author) {
-			bookmarkDTO.authorId = author._id;
-		}
-
 		if (oEmbed.isPhoto(mediaInfo)) {
-			bookmarkDTO.height = mediaInfo.height;
-			bookmarkDTO.width = mediaInfo.width;
+			if (mediaInfo.web_page) {
+				bookmarkDTO.pageUrl = mediaInfo.web_page;
+			}
+			bookmarkDTO.imageUrl = mediaInfo.url;
 		}
 		if (oEmbed.isVideo(mediaInfo)) {
-			bookmarkDTO.height = mediaInfo.height;
-			bookmarkDTO.width = mediaInfo.width;
+			if (mediaInfo.thumbnail_url_with_play_button) {
+				bookmarkDTO.thumbnailUrl = mediaInfo.thumbnail_url_with_play_button || mediaInfo.thumbnail_url;
+			}
 			bookmarkDTO.duration = mediaInfo.duration;
-			bookmarkDTO.embedHtml = mediaInfo.html;
+			bookmarkDTO.videoSourceUrl = mediaInfo.videoSourceUrl;
 		}
 
+		// === Set Tags ===
+
 		await TagsService.setBookmarkTags({ bookmarkDTO }, metadata?.tags);
+
+		// === Create Bookmark ===
 
 		const bookmark = await BookmarkModel.create(bookmarkDTO);
 		return bookmark;
@@ -97,7 +108,7 @@ export module BookmarksService {
 	export async function findBookmarks(query: {
 		/** Only this Account's Bookmarks */
 		accountId: string,
-		/** Title contains (case insensitive) */
+		/** Title contains (case insensitive, supports `*` and `?` wildcards) */
 		title?: string,
 		/** Text search accross text indexes (see BookmarkModel) (not as flexible as RegExp for title) */
 		textSearch?: string,
@@ -128,9 +139,9 @@ export module BookmarksService {
 
 		// Title:
 		if (query.title) {
-			const escapedRegexp = query.title.replace(MiscUtils.regexpEscape, '\\$&');
+			const wildcardQueryRegexp = MiscUtils.wildcardToRegExp(query.title);
 			mongoQuery.title = {
-				$regex: new RegExp(escapedRegexp, 'i'),
+				$regex: new RegExp(wildcardQueryRegexp, 'i'),
 			};
 		}
 

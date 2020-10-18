@@ -49,12 +49,13 @@ export class BookmarkResolver {
 	// =======================================================
 
 	@Authorized()
-	@Mutation(returns => Bookmark, { description: "To delete an existing Bookmark. Must be authenticated." })
-	deleteBookmark(
+	@Mutation(returns => Boolean, { description: "To delete an existing Bookmark. Must be authenticated." })
+	async deleteBookmark(
 		@Ctx() ctx: GraphqlContext,
 		@Arg('id') id: string,
 	) {
-		return BookmarksService.deleteBookmark(id, ctx.account._id);
+		const resp = await BookmarksService.deleteBookmark(id, ctx.account._id);
+		return resp.ok === 1;
 	}
 
 	// =======================================================
