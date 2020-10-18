@@ -42,8 +42,6 @@ export const BookmarkListItem: React.FC<BookmarkListItemProps> = ({
 			|| MEDIA_TYPES_LOGOS.unknown;
 	}
 
-	console.log("imageSource:", imageSource);
-
 	return (
 		<TouchableOpacity
 			key={bookmark._id}

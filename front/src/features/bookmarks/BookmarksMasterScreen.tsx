@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from "react-native";
-import { useQuery } from "@apollo/client";
-import { StackScreenProps } from "@react-navigation/stack";
+import { StyleSheet, KeyboardAvoidingView } from "react-native";
 import { BookmarksList } from "./components/BookmarksList";
-import { RootStackParamList } from "../../navigations";
 import { Bookmark, QueryBookmarksArgs } from "../../types/graphql-schema";
-import { BookmarksApi } from "./bookmarksApi";
 import { BookmarksListFilters } from "./components/BookmarksListFilters";
-import { BookmarksScreensList } from ".";
+import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
-type BookmarksScreenProps = StackScreenProps<BookmarksScreensList, 'Bookmarks'>;
-export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({
+export const BookmarksScreen: React.FC<DrawerContentComponentProps> = ({
 	navigation,
 }) => {
 	// State:
@@ -18,6 +13,7 @@ export const BookmarksScreen: React.FC<BookmarksScreenProps> = ({
 
 	// Actions:
 	const onBookmarkSelect = (bookmark: Bookmark) => {
+		console.log("[Bookmarks] clicked", bookmark);
 		navigation.navigate("Bookmark", { bookmark });
 	};
 

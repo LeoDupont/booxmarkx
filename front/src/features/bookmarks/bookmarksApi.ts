@@ -30,19 +30,21 @@ export module BookmarksApi {
 				) {
 					_id
 					accountId
+					pageUrl
 					title
-					url
 					authorId
 					createdAt
 					updatedAt
 					tags
 					type
 					source
-					thumbnailUrl
-					embedHtml
 					width
 					height
-					duration,
+					duration
+					thumbnailUrl
+					imageUrl
+					embedHtml
+					videoSourceUrl
 					author {
 						name
 					}
