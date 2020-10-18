@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image, ImageSourcePropType, ImageURISource } from "react-native";
+import { Surface } from "react-native-paper";
 import { Bookmark } from "../../../types/graphql-schema";
 
 // =======================================================
@@ -43,23 +44,25 @@ export const BookmarkListItem: React.FC<BookmarkListItemProps> = ({
 	}
 
 	return (
-		<TouchableOpacity
-			key={bookmark._id}
-			onPress={() => onSelect()}
-		>
-			<View style={{ flexDirection: 'row' }}>
-				<Image
-					source={imageSource}
-					width={styles.thumb.width}
-					height={styles.thumb.height}
-					style={styles.thumb}
-				/>
-				<View>
-					<Text>{bookmark.title}</Text>
-					<Text>{bookmark.author?.name || 'unknown'}</Text>
+		<View style={styles.itemContainer}>
+			<TouchableOpacity
+				key={bookmark._id}
+				onPress={() => onSelect()}
+			>
+				<View style={{ flexDirection: 'row' }}>
+					<Image
+						source={imageSource}
+						width={styles.thumb.width}
+						height={styles.thumb.height}
+						style={styles.thumb}
+					/>
+					<View>
+						<Text>{bookmark.title}</Text>
+						<Text>{bookmark.author?.name || 'unknown'}</Text>
+					</View>
 				</View>
-			</View>
-		</TouchableOpacity>
+			</TouchableOpacity>
+		</View>
 	);
 };
 
@@ -69,9 +72,20 @@ export const BookmarkListItem: React.FC<BookmarkListItemProps> = ({
 
 const styles = StyleSheet.create({
 
+	// itemContainer: {
+	// 	marginVertical: 5,
+	// 	padding: 5,
+	// 	backgroundColor: 'white',
+	// },
+	itemContainer: {
+		marginVertical: 5,
+		padding: 5,
+	},
+
 	thumb: {
 		width: 50,
 		height: 50,
+		marginRight: 5,
 	}
 
 });

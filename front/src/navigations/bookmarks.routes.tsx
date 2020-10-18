@@ -19,7 +19,7 @@ export const BookmarksRoutes = () => {
 
 	return (
 		<Drawer.Navigator
-			openByDefault
+			openByDefault={true}
 			drawerType={ isLargeScreen ? "permanent" : "back" }
 			drawerStyle={{ width: (isLargeScreen ? "50%" : "100%") }}
 			overlayColor="transparent"

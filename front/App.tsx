@@ -12,12 +12,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { selectAccount } from './src/features/account/accountSlice';
 import { useIsLargeScreen } from './src/utils/useIsLargeScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { SplashScreen } from './src/features/splashscreen';
+import { SplashScreen } from './src/features/account/SplashScreen';
 import { LoginScreen } from './src/features/account/LoginScreen';
 import { SignUpScreen } from './src/features/account/SignUpScreen';
 import { BookmarksScreen } from './src/features/bookmarks/BookmarksMasterScreen';
 import { BookmarkDetailScreen } from './src/features/bookmarks/BookmarkDetailScreen';
 import { Router } from './src/navigations';
+import { StatusBar } from 'expo-status-bar';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -92,6 +93,7 @@ export default function App(props: any) {
 				<PaperProvider>
 					<NavigationContainer>
 						<Router />
+						<StatusBar style="auto" />
 					</NavigationContainer>
 				</PaperProvider>
 			</Provider>

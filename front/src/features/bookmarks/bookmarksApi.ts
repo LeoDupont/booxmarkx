@@ -7,7 +7,10 @@ export module BookmarksApi {
 	// == QUERIES
 	// =======================================================
 
-	export const title = makeVar('');
+	export const FILTERS = {
+		title: makeVar(''),
+	};
+
 	/**
 	 * GraphQL query to fetch a list of Bookmarks.
 	 */
@@ -48,15 +51,13 @@ export module BookmarksApi {
 					videoSourceUrl
 					author {
 						name
+						url
 					}
 				}
 			}
 		`,
-		// filters: {
-		// 	title: makeVar(''),
-		// },
 		variables: () => ({
-			title: useReactiveVar(title),
+			title: useReactiveVar(FILTERS.title),
 		}) as QueryBookmarksArgs,
 	};
 
@@ -76,19 +77,25 @@ export module BookmarksApi {
 				createBookmark (url: $url, tags: $tags) {
 					_id
 					accountId
+					pageUrl
 					title
-					url
 					authorId
 					createdAt
 					updatedAt
 					tags
 					type
 					source
-					thumbnailUrl
-					embedHtml
 					width
 					height
 					duration
+					thumbnailUrl
+					imageUrl
+					embedHtml
+					videoSourceUrl
+					author {
+						name
+						url
+					}
 				}
 			}
 		`,
@@ -101,9 +108,7 @@ export module BookmarksApi {
 	export const DELETE = {
 		mutation: gql`
 			mutation ($id: String!) {
-				deleteBookmark (id: $id) {
-					_id
-				}
+				deleteBookmark (id: $id)
 			}
 		`,
 		variables: (vars: MutationDeleteBookmarkArgs) => vars,

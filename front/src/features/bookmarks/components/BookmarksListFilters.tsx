@@ -5,7 +5,7 @@ import { BookmarksApi } from "../bookmarksApi";
 type BookmarksListFiltersProps = {}
 export const BookmarksListFilters: React.FC<BookmarksListFiltersProps> = () => {
 	// State:
-	const setTitle = BookmarksApi.title;
+	const setTitle = BookmarksApi.FILTERS.title;
 
 	// Render:
 	return (

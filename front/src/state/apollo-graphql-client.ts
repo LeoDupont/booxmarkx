@@ -10,17 +10,12 @@ import { TOKEN_KEY } from "../features/account/auth-service";
 export module GraphQLClient {
 
 	let _token: string | null;
-	/**
-	 * Update the token used for subsequent GraphQL requests.
-	 */
-	export function updateToken(token: string | null) {
-		_token = token;
-	}
 
 	/**
 	 * Sets the token header for every GraphQL request.
 	 */
 	const useTokenLink = setContext((_, { headers }) => {
+		console.log("[APOLLO] using token:", _token)
 		return {
 			headers: {
 				...headers,
@@ -40,4 +35,13 @@ export module GraphQLClient {
 		cache: new InMemoryCache(),
 		link: useTokenLink.concat(httpLink),
 	});
+
+	/**
+	 * Update the token used for subsequent GraphQL requests.
+	 */
+	export async function updateToken(token: string | null) {
+		console.log("[APOLLO] udpating token:", token)
+		_token = token;
+		await client.cache.reset();
+	}
 }

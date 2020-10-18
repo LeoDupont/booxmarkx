@@ -48,8 +48,9 @@ export module AuthenticationService {
 	 * Updates Apollo GraphQL client's authLink to provide the token in subsequent requests.
 	 * @param token Token to use. Null to delete token.
 	 */
-	export function useToken(token: string | null) {
-		GraphQLClient.updateToken(token);
+	export async function useToken(token: string | null) {
+		console.log("[AUTH] upating apollo token", token);
+		await GraphQLClient.updateToken(token);
 	}
 
 	async function saveToken(token: string | null) {
@@ -58,8 +59,10 @@ export module AuthenticationService {
 		}
 		else {
 			await AsyncStorage.removeItem(TOKEN_KEY);
+			console.log("[AUTH] token removed from storage");
 		}
-		useToken(token);
+		console.log("[AUTH] using token", token);
+		await useToken(token);
 	}
 
 	export async function retrieveToken(throws?: boolean) {
@@ -67,11 +70,12 @@ export module AuthenticationService {
 		if (!token && throws) {
 			throw new Error("No token saved");
 		}
-		useToken(token);
+		await useToken(token);
 		return token;
 	}
 
 	export async function removeToken() {
+		console.log("[AUTH] removing token");
 		saveToken(null);
 	}
 }

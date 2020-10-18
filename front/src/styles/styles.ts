@@ -16,4 +16,12 @@ export const styles = StyleSheet.create({
 		height: '100%',
 	},
 
+	input: {
+		height: 40,
+		width: 300,
+		borderColor: '#999',
+		borderWidth: 1,
+		borderRadius: 2,
+		padding: 1,
+	},
 });
