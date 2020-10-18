@@ -11,7 +11,7 @@ describe("oEmbed Providers", () => {
 
 		const schemeTestCases = [
 
-			//  === Flickr ===
+			// === Flickr ===
 			{
 				provider: flickr,
 				scheme: "http://*.flickr.com/photos/*",

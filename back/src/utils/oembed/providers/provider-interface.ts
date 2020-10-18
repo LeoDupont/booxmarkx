@@ -10,7 +10,12 @@ export interface IProvider {
 
 	NAME: string;
 	API_ENDPOINT: string;
-	URL_SCHEMES: string[];
+
+	/**
+	 * Array of regular expressions that should match with URL that this Provider can process.\
+	 * Most specific expressions should be first.
+	 */
+	URL_SCHEMES: RegExp[];
 
 	/**
 	 * The Provider must be able to tell wether it can process a given media URL.
@@ -20,7 +25,7 @@ export interface IProvider {
 	/**
 	 * Returns the oEmbed details of the media.
 	 */
-	getMediaInfo: (url: string) => Promise<oEmbed.Response>;
+	getMediaInfo: (url: string) => Promise<oEmbed.VideoResponse | oEmbed.PhotoResponse>;
 }
 
 /**
@@ -33,13 +38,12 @@ export module ProviderDefaultHandlers {
 	 * Checks `url` against `urlSchemes`, taking every `*` as a wildcard.
 	 * @returns `true` if any of the schemes matches with `url`.
 	 */
-	export function canProcessUrl(url: string, urlSchemes: string[]) {
+	export function canProcessUrl(url: string, urlSchemes: RegExp[]) {
 
 		const cleanUrl = InputCleaner.url(url);
 
 		for (const scheme of urlSchemes) {
-			const wildcardRegexp = MiscUtils.wildcardToRegExp(scheme);
-			if (cleanUrl.match(wildcardRegexp)) {
+			if (cleanUrl.match(scheme)) {
 				return true;
 			}
 		}

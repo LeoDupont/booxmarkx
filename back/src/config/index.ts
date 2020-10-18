@@ -16,7 +16,7 @@ export const Config = {
 	VERSION: process.env.npm_package_version || '?.?.?',
 
 	/** Host's port to listen to */
-	PORT: parseInt(process.env.BOOXMARKX_API_PORT!),
+	PORT: parseInt(process.env.BOOXMARKX_API_PORT!, 10),
 
 	/** Database */
 	MONGODB_URI: process.env.BOOXMARKX_MONGODB_URI!,
@@ -24,4 +24,7 @@ export const Config = {
 
 	/** Tokens */
 	TOKEN_SECRET_KEY: process.env.BOOXMARKX_TOKEN_SECRET_KEY!,
+
+	/** External APIs */
+	FLICKR_API_KEY: process.env.FLICKR_API_KEY,
 };
