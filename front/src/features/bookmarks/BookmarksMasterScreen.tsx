@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, KeyboardAvoidingView, View, Platform } from "react-native";
+import { Appbar } from "react-native-paper";
 import { BookmarksList } from "./components/BookmarksList";
 import { Bookmark, QueryBookmarksArgs } from "../../types/graphql-schema";
 import { BookmarksListFilters } from "./components/BookmarksListFilters";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
+import { ICONS } from "../../styles/icons";
 
 export const BookmarksScreen: React.FC<DrawerContentComponentProps> = ({
 	navigation,
 }) => {
 	// State:
-	let [filters, setFilters] = useState<QueryBookmarksArgs>({});
+	// let [filters, setFilters] = useState<QueryBookmarksArgs>({});
+	// const
 
 	// Actions:
 	const onBookmarkSelect = (bookmark: Bookmark) => {
@@ -19,15 +22,23 @@ export const BookmarksScreen: React.FC<DrawerContentComponentProps> = ({
 
 	// Render:
 	return (
-		<KeyboardAvoidingView enabled style={styles.container}>
-			<BookmarksListFilters
-				onFilterChange={setFilters}
-			/>
-			<BookmarksList
-				filters={filters}
-				onSelect={onBookmarkSelect}
-			/>
-		</KeyboardAvoidingView>
+		<View>
+			<Appbar>
+				<Appbar.Content title="Bookmarks" />
+				<Appbar.Action icon={ICONS.SEARCH} onPress={() => {}}/>
+				<Appbar.Action icon={ICONS.FILTER} />
+				<Appbar.Action icon={ICONS.OPTIONS} />
+			</Appbar>
+			<KeyboardAvoidingView enabled style={styles.container}>
+				<BookmarksListFilters
+					// onFilterChange={setFilters}
+				/>
+				<BookmarksList
+					// filters={filters}
+					onSelect={onBookmarkSelect}
+				/>
+			</KeyboardAvoidingView>
+		</View>
 	);
 }
 

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
-import { Account, MutationRegisterAccountArgs } from "../types/graphql-schema";
-import { GraphQLClient } from "../state/apollo-graphql-client";
+import { Account, MutationRegisterAccountArgs } from "../../types/graphql-schema";
+import { GraphQLClient } from "../../state/apollo-graphql-client";
 
 export module AccountService {
 

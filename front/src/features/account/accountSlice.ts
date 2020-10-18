@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AccountService } from "../../services/account.service";
+import { AccountService } from "./account-service";
 import { RootState } from "../../state/redux-store";
 import { Account, MutationAuthenticateArgs } from "../../types/graphql-schema";
 import { AuthenticationService } from "./auth-service";
@@ -42,6 +42,15 @@ export const restoreToken = createAsyncThunk(
 	}
 );
 
+export const logOut = createAsyncThunk(
+	'account/logOut',
+	async () => {
+		console.log("account/logOut...");
+		await AuthenticationService.removeToken();
+		return undefined;
+	}
+);
+
 export const accountSlice = createSlice({
 	name: 'account',
 	initialState: <AccountStateSlice> {
@@ -58,16 +67,16 @@ export const accountSlice = createSlice({
 	extraReducers: builder => {
 		// account/logIn:
 		builder.addCase(logIn.pending, (state, action) => {
-			console.log("account/login/pending");
+			console.log("account/logIn/pending");
 			state.loading = true;
 		});
 		builder.addCase(logIn.fulfilled, (state, action) => {
-			console.log("account/login/fulfilled");
+			console.log("account/logIn/fulfilled");
 			state.account = action.payload;
 			state.loading = false;
 		});
 		builder.addCase(logIn.rejected, (state, action) => {
-			console.log("account/login/rejected");
+			console.log("account/logIn/rejected");
 			state.account = undefined;
 			state.loading = false;
 		});
@@ -88,6 +97,22 @@ export const accountSlice = createSlice({
 			state.account = undefined;
 			state.loading = false;
 			state.tryRestoring = false;
+		});
+
+		// account/logOut:
+		builder.addCase(logOut.pending, (state, action) => {
+			console.log("account/logOut/pending");
+			state.loading = true;
+		});
+		builder.addCase(logOut.fulfilled, (state, action) => {
+			console.log("account/logOut/fulfilled");
+			state.account = undefined;
+			state.loading = false;
+		});
+		builder.addCase(logOut.rejected, (state, action) => {
+			console.log("account/logOut/rejected");
+			state.account = undefined;
+			state.loading = false;
 		});
 	}
 });

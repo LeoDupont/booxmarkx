@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, makeVar, useReactiveVar } from "@apollo/client";
 import { MutationCreateBookmarkArgs, MutationDeleteBookmarkArgs, QueryBookmarksArgs } from "../../types/graphql-schema";
 
 export module BookmarksApi {
@@ -7,6 +7,7 @@ export module BookmarksApi {
 	// == QUERIES
 	// =======================================================
 
+	export const title = makeVar('');
 	/**
 	 * GraphQL query to fetch a list of Bookmarks.
 	 */
@@ -51,7 +52,12 @@ export module BookmarksApi {
 				}
 			}
 		`,
-		variables: (vars: QueryBookmarksArgs) => vars,
+		// filters: {
+		// 	title: makeVar(''),
+		// },
+		variables: () => ({
+			title: useReactiveVar(title),
+		}) as QueryBookmarksArgs,
 	};
 
 	// =======================================================

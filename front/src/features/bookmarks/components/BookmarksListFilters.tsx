@@ -1,52 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextInput, View } from "react-native";
-import { QueryBookmarksArgs } from "../../../types/graphql-schema";
+import { BookmarksApi } from "../bookmarksApi";
 
-type BookmarksListFiltersProps = {
-	onFilterChange: Function,
-}
-export const BookmarksListFilters: React.FC<BookmarksListFiltersProps> = ({
-	onFilterChange
-}) => {
-	const filter: QueryBookmarksArgs = {};
-
+type BookmarksListFiltersProps = {}
+export const BookmarksListFilters: React.FC<BookmarksListFiltersProps> = () => {
 	// State:
-	const setTitleFilter = (value: string) => {
-		onFilterChange({
-			...filter,
-			title: value,
-		});
-	};
-	const setTags = (value: string[]) => {
-		onFilterChange({
-			...filter,
-			tags: value,
-		});
-	};
-	const setAuthors = (value: string[]) => {
-		onFilterChange({
-			...filter,
-			authors: value,
-		});
-	};
-	const setSources = (value: string[]) => {
-		onFilterChange({
-			...filter,
-			sources: value,
-		});
-	};
-	const setTypes = (value: string[]) => {
-		onFilterChange({
-			...filter,
-			types: value,
-		});
-	};
+	const setTitle = BookmarksApi.title;
 
 	// Render:
 	return (
 		<View>
 			<TextInput
-				onChangeText={setTitleFilter}
+				onChangeText={setTitle}
 				placeholder="Title..."
 				returnKeyType="search"
 			/>

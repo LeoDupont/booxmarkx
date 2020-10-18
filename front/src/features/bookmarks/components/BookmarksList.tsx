@@ -1,23 +1,22 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
 import { Text, FlatList } from "react-native";
-import { Bookmark, QueryBookmarksArgs } from "../../../types/graphql-schema";
+import { Bookmark } from "../../../types/graphql-schema";
 import { BookmarksApi } from "../bookmarksApi";
 import { BookmarkListItem } from "./BookmarkListItem";
 
 type BookmarksListProps = {
-	filters: QueryBookmarksArgs,
 	onSelect: Function,
 };
 export const BookmarksList: React.FC<BookmarksListProps> = ({
-	filters,
 	onSelect,
 }) => {
 	// Query:
 	let { loading, error, data } = useQuery<{ bookmarks: Bookmark[] }>(
 		BookmarksApi.BOOKMARKS.query,
 		{
-			variables: BookmarksApi.BOOKMARKS.variables(filters),
+			// Leverages Apollo's reactive variables for every filters:
+			variables: BookmarksApi.BOOKMARKS.variables(),
 		}
 	);
 

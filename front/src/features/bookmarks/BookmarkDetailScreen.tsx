@@ -2,23 +2,59 @@ import React from "react";
 import { StyleSheet, Image, Platform, Text, View, useWindowDimensions } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { WebView } from "react-native-webview";
-import { RootStackParamList } from "../../navigations";
+import { Appbar } from "react-native-paper";
+import { BookmarksStackParamList } from "../../navigations/bookmarks.routes";
 import { LARGE_SCREEN_MIN_WIDTH, useIsLargeScreen } from "../../utils/useIsLargeScreen";
 import { ImageSize } from "../../utils/imageSize";
+import { ICONS } from "../../styles/icons";
+import { styles } from "../../styles/styles";
 
-type BookmarkDetailScreenProps = StackScreenProps<RootStackParamList, 'Bookmark'>;
+const render = (appBar: JSX.Element, content: JSX.Element) => {
+	return (
+		<View style={styles.screenWithAppbarContainer}>
+			{ appBar }
+			{ content }
+		</View>
+	);
+}
+
+type BookmarkDetailScreenProps = StackScreenProps<BookmarksStackParamList, 'Bookmark'>;
 export const BookmarkDetailScreen: React.FC<BookmarkDetailScreenProps> = (props) => {
 
 	// === Bookmark to dispay ===
 
 	const bookmark = props.route.params?.bookmark;
 
+	// === AppBar ===
+
+	const title = bookmark?.title || "";
+	const subtitle = bookmark?.author?.name || "";
+
+	const backAction = () => {
+
+	}
+
+	const appBar = (
+		<Appbar>
+			{ !!bookmark &&
+				<Appbar.BackAction />
+			}
+			<Appbar.Content title={title} subtitle={subtitle} />
+			{ !!bookmark &&
+				<Appbar.Action icon={ICONS.OPTIONS} />
+			}
+		</Appbar>
+	);
+
+	let content: JSX.Element;
+
 	if (!bookmark) {
-		return (
-			<View style={styles.container}>
+		content = (
+			<View style={_styles.container}>
 				<Text>Click on a bookmark to view it</Text>
 			</View>
 		);
+		return render(appBar, content);
 	}
 
 	// === Media size ===
@@ -115,16 +151,16 @@ export const BookmarkDetailScreen: React.FC<BookmarkDetailScreenProps> = (props)
 		}
 	}
 
-	return (
-		<View style={styles.container}>
+	return render(appBar, (
+		<View style={_styles.container}>
 			<Text>Bookmark: {bookmark?.title}</Text>
 			<Text>By: {bookmark?.author?.name }</Text>
 			{ asset }
 		</View>
-	);
+	));
 }
 
-const styles = StyleSheet.create({
+const _styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: 'center',
