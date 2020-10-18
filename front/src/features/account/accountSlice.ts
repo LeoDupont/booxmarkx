@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AccountService } from "./account-service";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Account, MutationAuthenticateArgs } from "../../types/graphql-schema";
 import { RootState } from "../../state/redux-store";
-import { Account, MutationAuthenticateArgs, MutationCreateBookmarkArgs, MutationRegisterAccountArgs } from "../../types/graphql-schema";
 import { AuthenticationService } from "./auth-service";
+import { AccountService } from "./account-service";
 
 export type AccountStateSlice = {
 	account: Account | undefined,
@@ -23,18 +23,6 @@ export const logIn = createAsyncThunk(
 		return resp?.account;
 	}
 );
-
-// /**
-//  * Authenticates a user and saves their Account token locally.
-//  */
-// export const signUp = createAsyncThunk(
-// 	'account/signUp',
-// 	async (args: MutationRegisterAccountArgs) => {
-// 		console.log("account/signUp...");
-// 		const resp = await AccountService.createAccount(args);
-// 		return resp;
-// 	}
-// );
 
 /**
  * Retrieves the user's token and use it to get their Account.
@@ -70,12 +58,7 @@ export const accountSlice = createSlice({
 		loading: false,
 		tryRestoring: true,
 	},
-	reducers: {
-		// setAccount: (state, action: PayloadAction<Account | null>) => {
-		// 	state.account = action.payload;
-		// 	state.loading = false;
-		// }
-	},
+	reducers: {},
 	extraReducers: builder => {
 		// account/logIn:
 		builder.addCase(logIn.pending, (state, action) => {
@@ -92,22 +75,6 @@ export const accountSlice = createSlice({
 			state.account = undefined;
 			state.loading = false;
 		});
-
-		// // account/signUp:
-		// builder.addCase(signUp.pending, (state, action) => {
-		// 	console.log("account/signUp/pending");
-		// 	state.loading = true;
-		// });
-		// builder.addCase(signUp.fulfilled, (state, action) => {
-		// 	console.log("account/signUp/fulfilled");
-		// 	state.account = action.payload;
-		// 	state.loading = false;
-		// });
-		// builder.addCase(signUp.rejected, (state, action) => {
-		// 	console.log("account/signUp/rejected");
-		// 	state.account = undefined;
-		// 	state.loading = false;
-		// });
 
 		// account/restoreToken:
 		builder.addCase(restoreToken.pending, (state, action) => {

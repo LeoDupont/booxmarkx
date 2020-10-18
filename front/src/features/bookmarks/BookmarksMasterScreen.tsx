@@ -1,16 +1,15 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, KeyboardAvoidingView, View, Text, TextInput } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { Appbar, Button, Dialog, Menu, Portal, TextInput as TextInputPaper } from "react-native-paper";
-import { ICONS } from "../../styles/icons";
-import { BookmarksList } from "./components/BookmarksList";
-import { Bookmark } from "../../types/graphql-schema";
-import { BookmarksListFilters } from "./components/BookmarksListFilters";
-import { clearTitleFilter, TitleFilter } from "./components/TitleFilter";
+import { StatusBar } from "expo-status-bar";
 import { useDispatch } from "react-redux";
-import { logOut } from "../account/accountSlice";
-import { styles } from "../../styles/styles";
 import { useMutation } from "@apollo/client";
+import { ICONS } from "../../styles/icons";
+import { Bookmark } from "../../types/graphql-schema";
+import { BookmarksList } from "./components/BookmarksList";
+import { clearTitleFilter, TitleFilter } from "./components/TitleFilter";
+import { logOut } from "../account/accountSlice";
 import { BookmarksApi } from "./bookmarksApi";
 
 const moreOptionsRef = React.createRef();
@@ -93,9 +92,7 @@ export const BookmarksScreen: React.FC<DrawerContentComponentProps> = ({
 				</Menu>
 			</Appbar>
 
-			<View style={{ flex: 1 }}>
-				<BookmarksList onSelect={onBookmarkSelect} />
-			</View>
+			<BookmarksList onSelect={onBookmarkSelect} />
 
 			<Portal>
 				<Dialog visible={addBVisible} onDismiss={() => setAddBVisible(false)}>
@@ -107,7 +104,6 @@ export const BookmarksScreen: React.FC<DrawerContentComponentProps> = ({
 						autoCapitalize="none"
 						keyboardType="url"
 						returnKeyType="done"
-						// style={styles.input}
 					/>
 					</Dialog.Content>
 					<Dialog.Actions>
@@ -115,6 +111,8 @@ export const BookmarksScreen: React.FC<DrawerContentComponentProps> = ({
 					</Dialog.Actions>
 				</Dialog>
 			</Portal>
+
+			<StatusBar style="auto" />
 		</View>
 	);
 }

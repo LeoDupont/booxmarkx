@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
 import { LoginScreen } from "../features/account/LoginScreen";
 import { SignUpScreen } from "../features/account/SignUpScreen";
 import { SplashScreen } from "../features/account/SplashScreen";
-import { useSelector } from "react-redux";
 import { selectAccount } from "../features/account/accountSlice";
 
 export type AccountStackParamList = {
@@ -18,9 +18,7 @@ const Stack = createStackNavigator<AccountStackParamList>();
 
 export const AccountRoutes = () => {
 
-	const { account, loading, tryRestoring } = useSelector(selectAccount);
-
-	console.log({ account, loading, tryRestoring })
+	const { tryRestoring } = useSelector(selectAccount);
 
 	return (
 		<Stack.Navigator

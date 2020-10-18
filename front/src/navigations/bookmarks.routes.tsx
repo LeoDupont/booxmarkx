@@ -1,9 +1,9 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Bookmark } from "../types/graphql-schema";
 import { BookmarkDetailScreen } from "../features/bookmarks/BookmarkDetailScreen";
 import { BookmarksScreen } from "../features/bookmarks/BookmarksMasterScreen";
 import { useIsLargeScreen } from "../utils/useIsLargeScreen";
-import { Bookmark } from "../types/graphql-schema";
 
 export type BookmarksStackParamList = {
 	Bookmark: {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
+import { StatusBar } from "expo-status-bar";
 import { logIn } from "./accountSlice";
 import { styles } from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -41,8 +42,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
 			<Appbar>
 				<Appbar.Content title="Booxmarkx" />
 			</Appbar>
+
 			<View style={_styles.container}>
-			{/* <View style={styles.centeredContainer}> */}
 
 				<View>
 					{ !!info && <Text>{info}</Text> }
@@ -76,6 +77,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
 					Create an account
 				</Button>
 			</View>
+
+			<StatusBar style="auto" />
 		</View>
 	);
 }
@@ -88,7 +91,12 @@ const _styles = StyleSheet.create({
 	},
 
 	input: {
-		...styles.input,
+		height: 40,
+		width: 300,
+		borderColor: '#999',
+		borderWidth: 1,
+		borderRadius: 2,
+		padding: 1,
 		marginBottom: 5,
 	},
 });

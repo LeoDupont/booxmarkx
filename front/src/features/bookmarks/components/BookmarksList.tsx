@@ -1,8 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { Text, FlatList, View, useWindowDimensions } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { styles } from "../../../styles/styles";
+import { Text, FlatList } from "react-native";
 import { Bookmark } from "../../../types/graphql-schema";
 import { BookmarksApi } from "../bookmarksApi";
 import { BookmarkListItem } from "./BookmarkListItem";
@@ -13,9 +11,6 @@ type BookmarksListProps = {
 export const BookmarksList: React.FC<BookmarksListProps> = ({
 	onSelect,
 }) => {
-	// State:
-	const dimensions = useWindowDimensions();
-
 	// Query:
 	let { loading, error, data, refetch } = useQuery<{ bookmarks: Bookmark[] }>(
 		BookmarksApi.BOOKMARKS.query,
@@ -28,6 +23,7 @@ export const BookmarksList: React.FC<BookmarksListProps> = ({
 	let [isRefreshing, setIsRefreshing] = useState(false);
 	const refresh = () => {
 		setIsRefreshing(true);
+		console.log(refetch);
 		refetch()
 			.catch(err => console.error(err))
 			.then(() => setIsRefreshing(false));
@@ -47,22 +43,17 @@ export const BookmarksList: React.FC<BookmarksListProps> = ({
 	}
 
 	return (
-		<ScrollView style={{ flex: 1 }} scrollEnabled>
-			<FlatList
-				// scrollEnabled
-				// style={{ flex: 1 }}
-				// contentContainerStyle={{ flexGrow: 1 }}
-				data={data?.bookmarks}
-				keyExtractor={item => item._id}
-				renderItem={({item}) => (
-					<BookmarkListItem
-						bookmark={item}
-						onSelect={() => onSelect(item)}
-					/>
-				)}
-				refreshing={isRefreshing}
-				onRefresh={refresh}
-			></FlatList>
-		</ScrollView>
+		<FlatList
+			data={data?.bookmarks}
+			keyExtractor={item => item._id}
+			renderItem={({item}) => (
+				<BookmarkListItem
+					bookmark={item}
+					onSelect={() => onSelect(item)}
+				/>
+			)}
+			refreshing={isRefreshing}
+			onRefresh={refresh}
+		></FlatList>
 	);
 };

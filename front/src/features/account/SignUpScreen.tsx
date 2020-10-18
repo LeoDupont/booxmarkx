@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
 import { Appbar, Button } from "react-native-paper";
-import { useDispatch } from "react-redux";
 import { styles } from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { AccountService } from "./account-service";
+import { StatusBar } from "expo-status-bar";
 
 export const SignUpScreen = () => {
 
@@ -15,14 +15,12 @@ export const SignUpScreen = () => {
 	let [result, setResult] = useState('');
 	let [errorMsg, setErrorMsg] = useState('');
 
-	const dispatch = useDispatch();
 	const navigation = useNavigation();
 
 	// Create:
 	const create = () => {
 		Keyboard.dismiss();
 		if (pwd === pwdConfirm) {
-			// dispatch(signUp({ mail, pwd }));
 			AccountService.createAccount({ mail, pwd })
 				.then(() => navigation.navigate("LogIn", { justSignedUp: true }))
 				.catch(err => setErrorMsg(err.message));
@@ -43,8 +41,8 @@ export const SignUpScreen = () => {
 			<Appbar>
 				<Appbar.Content title="Booxmarkx" />
 			</Appbar>
+
 			<View style={_styles.container}>
-			{/* <View style={styles.centeredContainer}> */}
 				<TextInput
 					onChangeText={setMail}
 					placeholder="E-mail address..."
@@ -87,6 +85,8 @@ export const SignUpScreen = () => {
 					{ !!result && <Text>{result}</Text> }
 				</View>
 			</View>
+
+			<StatusBar style="auto" />
 		</View>
 	);
 }
@@ -104,7 +104,7 @@ const _styles = StyleSheet.create({
 		borderColor: '#999',
 		borderWidth: 1,
 		borderRadius: 2,
-		marginBottom: 5,
 		padding: 1,
+		marginBottom: 5,
 	},
 });

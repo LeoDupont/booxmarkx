@@ -1,6 +1,5 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text, View, Image, ImageSourcePropType, ImageURISource } from "react-native";
-import { Surface } from "react-native-paper";
 import { Bookmark } from "../../../types/graphql-schema";
 
 // =======================================================
@@ -72,11 +71,6 @@ export const BookmarkListItem: React.FC<BookmarkListItemProps> = ({
 
 const styles = StyleSheet.create({
 
-	// itemContainer: {
-	// 	marginVertical: 5,
-	// 	padding: 5,
-	// 	backgroundColor: 'white',
-	// },
 	itemContainer: {
 		marginVertical: 5,
 		padding: 5,

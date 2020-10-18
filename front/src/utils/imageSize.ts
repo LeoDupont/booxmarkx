@@ -8,7 +8,7 @@ export module ImageSize {
 	/**
 	 * Returns the maximum `width` and `height` of an image, considering the `wantedWidth` and `wantedHeight` constraints.
 	 * @param image Provide either `image` or `ratio`.
-	 * @param constraints Provide at least one constraint.
+	 * @param constraints Provide at least one `wantedXXX` constraint. The `minXXX` constraints are used as strict lower boundaries.
 	 * @param getSmallest If we want to get the smallest possible dimensions. Returns the largest otherwise.
 	 */
 	export function getDimensions(
@@ -19,13 +19,16 @@ export module ImageSize {
 			ratio?: number,
 		},
 		constraints: {
+			/** Maximum desired width */
 			wantedWidth?: number,
+			/** Maximum desired height */
 			wantedHeight?: number,
+			/** Strict minimum width (will overwrite `wantedWidth` if greater) */
 			minWidth?: number,
+			/** Strict minimum height (will overwrite `wantedHeight` if greater) */
 			minHeight?: number,
 		},
 		getSmallest?: boolean,
-		// strict?: boolean,
 	) {
 		// Aspect ratio:
 		let { dims, ratio } = image;
@@ -47,15 +50,6 @@ export module ImageSize {
 			wantedHeight = minHeight;
 		}
 
-		// if (!strict && wantedWidth && minWidth && wantedWidth < minWidth) {
-		// 	if (getSmallest) { minWidth = wantedWidth; }
-		// 	else { wantedWidth = minWidth; }
-		// }
-		// if (!strict && wantedHeight && minHeight && wantedHeight < minHeight) {
-		// 	if (getSmallest) { minHeight = wantedHeight; }
-		// 	else { wantedHeight = minHeight; }
-		// }
-
 		// Compute sizes:
 		const dimensions: Dimensions[] = [];
 		if (wantedWidth) {
@@ -70,27 +64,13 @@ export module ImageSize {
 				height: wantedHeight,
 			});
 		}
-		// if (minWidth) {
-		// 	dimensions.push({
-		// 		width: minWidth,
-		// 		height: heightFromWidth(minWidth, ratio),
-		// 	});
-		// }
-		// if (minHeight) {
-		// 	dimensions.push({
-		// 		width: widthFromHeight(minHeight, ratio),
-		// 		height: minHeight,
-		// 	});
-		// }
 
 		// Only keep possible solutions:
 		const possibleDimensions = dimensions
 			.filter(dim => {
 				return (
 					(!wantedWidth || dim.width <= wantedWidth) &&
-					// (!minWidth || dim.width >= minWidth) &&
 					(!wantedHeight || dim.height <= wantedHeight)
-					// (!minHeight || dim.height >= minHeight)
 				);
 			})
 			.sort((dim1, dim2) => {
@@ -103,7 +83,6 @@ export module ImageSize {
 		if (possibleDimensions.length < 1) {
 			console.warn("[imageSize] Pre-error dump:",
 				{ image, constraints, dimensions: dims, possibleDimensions },
-				// { newConstraints: { wantedWidth, minWidth, wantedHeight, minHeight } }
 			);
 			throw new Error("[imageSize] Impossible to respect constraints");
 		}

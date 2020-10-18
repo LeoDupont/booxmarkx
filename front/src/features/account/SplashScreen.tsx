@@ -1,15 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { Component } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import React from "react";
+import { ActivityIndicator, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { styles } from "../../styles/styles";
 import { restoreToken, selectAccount } from "./accountSlice";
+import { styles } from "../../styles/styles";
 
 export const SplashScreen = () => {
 
 	const { account, loading, tryRestoring } = useSelector(selectAccount);
 	const dispatch = useDispatch();
-	const navigation = useNavigation();
 
 	// Try restoring local token:
 	if (!loading && !account && tryRestoring) {

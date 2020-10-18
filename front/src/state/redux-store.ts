@@ -1,10 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice, AccountStateSlice } from "../features/account/accountSlice";
-// import { bookmarksSlice, BookmarkStateSlice } from "../features/bookmarks/bookmarksSlice";
 
 export type RootState = {
 	account: AccountStateSlice,
-	// bookmarks: BookmarkStateSlice,
 }
 
 /**
@@ -13,6 +11,7 @@ export type RootState = {
 export const store = configureStore({
 	reducer: {
 		account: accountSlice.reducer,
+		// (We'll use Apollo instead for the Bookmarks part)
 		// bookmarks: bookmarksSlice.reducer,
 	},
 });

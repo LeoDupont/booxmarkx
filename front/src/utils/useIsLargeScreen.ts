@@ -20,5 +20,5 @@ export const useIsLargeScreen = () => {
 		return () => Dimensions.removeEventListener('change', onDimensionsChange);
 	}, []);
 
-	return dimensions.width > 414;
+	return dimensions.width > LARGE_SCREEN_MIN_WIDTH;
 };

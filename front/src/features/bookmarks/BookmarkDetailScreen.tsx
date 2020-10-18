@@ -242,7 +242,6 @@ const _styles = StyleSheet.create({
 	},
 
 	mediaContainer: {
-		// height: 'auto',
 		marginTop: 7,
 	},
 

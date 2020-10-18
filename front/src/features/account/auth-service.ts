@@ -49,22 +49,27 @@ export module AuthenticationService {
 	 * @param token Token to use. Null to delete token.
 	 */
 	export async function useToken(token: string | null) {
-		console.log("[AUTH] upating apollo token", token);
 		await GraphQLClient.updateToken(token);
 	}
 
+	/**
+	 * Saves `token` in local storage.\
+	 * Deletes it if `token` is `null`.
+	 */
 	async function saveToken(token: string | null) {
 		if (token) {
 			await AsyncStorage.setItem(TOKEN_KEY, token);
 		}
 		else {
 			await AsyncStorage.removeItem(TOKEN_KEY);
-			console.log("[AUTH] token removed from storage");
 		}
-		console.log("[AUTH] using token", token);
 		await useToken(token);
 	}
 
+	/**
+	 * Looks for a token saved in local storage and sets it as the active token.
+	 * @param throws If we want to throw an error if no token is found
+	 */
 	export async function retrieveToken(throws?: boolean) {
 		const token = await AsyncStorage.getItem(TOKEN_KEY);
 		if (!token && throws) {
@@ -75,7 +80,6 @@ export module AuthenticationService {
 	}
 
 	export async function removeToken() {
-		console.log("[AUTH] removing token");
 		saveToken(null);
 	}
 }
